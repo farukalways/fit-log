@@ -1,11 +1,8 @@
 import { type Workout } from "./data";
 
-// আপনার আসল API URL-টি এখানে বসান
 const API_URL = "https://api.api-store.workers.dev/api/fitlog";
 
-/**
- * Fetches workouts from the real backend API endpoint.
- */
+
 export async function fetchWorkouts(): Promise<Workout[]> {
   try {
     const response = await fetch(API_URL);

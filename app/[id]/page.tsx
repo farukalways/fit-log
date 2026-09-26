@@ -1,11 +1,9 @@
-// app/workout/[id]/page.tsx
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Workout } from "@/lib/data";
 import { DetailActions } from "@/components/DetailActions";
 
-// 🌐 আপনার এক্সটার্নাল এপিআই-এর Base URL (.env.local ফাইল থেকে নিবে)
-// process.env.NEXT_PUBLIC_EXTERNAL_API_URL ||
+
 
 
 async function fetchWorkoutFromExternalApi(
@@ -91,7 +89,7 @@ export default async function WorkoutDetailPage({
           </h1>
           <p className="mt-3 text-muted">{workout.description}</p>
 
-          {/* কুইক স্ট্যাটস (Duration, Calories, Rating) */}
+          
           <div className="mt-6 flex items-center gap-5 text-sm text-muted">
             <span className="flex items-center gap-1.5">
               <svg
@@ -144,7 +142,7 @@ export default async function WorkoutDetailPage({
             </span>
           </div>
 
-          {/* স্পেসিফিকেশন গ্রিড */}
+          
           <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 rounded-2xl border border-border bg-surface p-5 sm:grid-cols-3">
             {SPECS.map((spec) => (
               <div key={spec.label}>
@@ -158,7 +156,7 @@ export default async function WorkoutDetailPage({
             ))}
           </dl>
 
-          {/* ইন্সট্রাকশন লিস্ট */}
+         
           <div className="mt-8">
             <h2 className="font-display text-lg uppercase tracking-wide text-ink">
               Instructions
@@ -175,7 +173,6 @@ export default async function WorkoutDetailPage({
             </ol>
           </div>
 
-          {/* ডিটেইলস অ্যাকশনস */}
           <div className="mt-8">
             <DetailActions workoutId={workout.id.toString()} />
           </div>

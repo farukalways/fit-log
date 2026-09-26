@@ -5,8 +5,6 @@ import { Navbar } from "@/components/Navber";
 import { Footer } from "@/components/Footer";
 
 
-
-
 export const metadata: Metadata = {
   title: "FitLog — Workout Library",
   description:

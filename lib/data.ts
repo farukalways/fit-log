@@ -16,8 +16,8 @@ export type Workout = {
   muscleGroups: string[];
   equipment: string;
   difficulty: Difficulty;
-  duration: number; // minutes
-  caloriesBurned: number; // kcal
+  duration: number; 
+  caloriesBurned: number; 
   sets: number;
   reps: string;
   rating: number;

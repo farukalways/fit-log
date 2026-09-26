@@ -65,13 +65,8 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view it.
+Open [https://fit-log-five-beige.vercel.app/](viewIt) to view it.
 
-```bash
-# production build
-npm run build
-npm run start
-```
 
 ---
 

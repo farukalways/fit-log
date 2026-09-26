@@ -19,7 +19,6 @@ export function PlanWorkoutCard({
         done ? "opacity-60" : ""
       }`}
     >
-      {/* ইলাস্ট্রেশন বাদ দিয়ে রিয়েল ছবি রেন্ডার করা হয়েছে */}
       <div className="relative h-20 w-full shrink-0 overflow-hidden rounded-xl sm:h-16 sm:w-16">
         <Image
           src={workout.image}
@@ -34,7 +33,6 @@ export function PlanWorkoutCard({
         <h3 className="font-display text-base uppercase tracking-wide text-ink">
           {workout.name}
         </h3>
-        {/* equipment এখন সরাসরি string */}
         <p className="text-sm text-muted">{workout.equipment}</p>
         <div className="mt-2 flex items-center gap-4 text-xs text-muted">
           <span className="flex items-center gap-1">
@@ -67,7 +65,6 @@ export function PlanWorkoutCard({
       />
       <path d="M8.6 13.5A4.6 4.6 0 0 0 12 21a4.6 4.6 0 0 0 4.2-6.6" strokeLinecap="round" />
     </svg>
-            {/* calories এর জায়গায় caloriesBurned */}
             {workout.caloriesBurned} kcal
           </span>
           <span className="flex items-center gap-1 text-ink">
@@ -96,7 +93,7 @@ export function PlanWorkoutCard({
 
       <div className="flex items-center gap-2">
         <Link
-          href={`/workout/${workout.id}`}
+          href={`/${workout.id}`}
           className="rounded-full border border-border px-3 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:border-accent"
         >
           View Details

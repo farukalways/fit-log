@@ -5,7 +5,6 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-bg">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-20 lg:grid-cols-2 lg:py-24">
-        {/* Left Side: Content */}
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
             Workout Library
@@ -41,9 +40,7 @@ export function Hero() {
           </a>
         </div>
 
-        {/* Right Side: Responsive Image Wrapper */}
         <div className="relative mx-auto aspect-square w-full max-w-70 sm:max-w-md">
-          {/* Background Glow */}
           <div className="absolute inset-0 rounded-3xl bg-accent/10 blur-2xl" />
           
           <div className="relative h-full w-full overflow-hidden rounded-3xl">

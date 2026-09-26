@@ -1,4 +1,3 @@
-// context/PlanContext.tsx
 "use client";
 
 import {
@@ -61,7 +60,6 @@ export function PlanProvider({ children }: { children: ReactNode }) {
         savedState = JSON.parse(raw) as PlanState;
       }
     } catch {
-      // Storage unavailable or malformed JSON
     }
 
     queueMicrotask(() => {
@@ -81,8 +79,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error("Failed to load workouts in PlanProvider:", error);
       } finally {
-        // fetch শেষ হয়েছে কিনা (সফল হোক বা fail) — এটা না থাকলে
-        // page.tsx কখনো জানতে পারে না allWorkouts আসলেই লোড হয়েছে কিনা
+       
         if (isMounted) setWorkoutsLoaded(true);
       }
     }
@@ -98,7 +95,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
-      // fail silently
+      
     }
   }, [state, hydrated]);
 
@@ -157,8 +154,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  // 🛠️ ফিক্স: id ম্যাচিং এখন String() দিয়ে normalize করা —
-  // entry.id সবসময় string, কিন্তু allWorkouts থেকে আসা w.id number হতে পারে।
+  
   const planWorkouts = useMemo(
     () =>
       state.plan

@@ -1,4 +1,3 @@
-// app/my-plan/page.tsx (path অনুযায়ী তোমার প্রজেক্টে যেখানে আছে)
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -31,8 +30,6 @@ export default function MyPlanPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // 🛠️ ফিক্স: workoutsLoaded চেক না থাকায় allWorkouts fetch শেষ হওয়ার আগেই
-  // loading false হয়ে EmptyState দেখিয়ে দিচ্ছিল।
   const loading = showLoading || !hydrated || !workoutsLoaded;
 
   const totalMinutes = planWorkouts.reduce((sum, w) => sum + w.duration, 0);
