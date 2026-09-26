@@ -1,3 +1,4 @@
+// context/PlanContext.tsx
 "use client";
 
 import {
@@ -29,6 +30,7 @@ const emptyState: PlanState = { plan: [], saved: [] };
 
 type PlanContextValue = {
   hydrated: boolean;
+  workoutsLoaded: boolean;
   planWorkouts: (Workout & { done: boolean })[];
   savedWorkouts: Workout[];
   planCount: number;
@@ -46,12 +48,11 @@ type PlanContextValue = {
 const PlanContext = createContext<PlanContextValue | null>(null);
 
 export function PlanProvider({ children }: { children: ReactNode }) {
-  // ১. Hydration এরর ও SSR mismatch এড়াতে ইনিশিয়াল স্টেট সবসময় খালি থাকবে
   const [state, setState] = useState<PlanState>(emptyState);
   const [hydrated, setHydrated] = useState(false);
   const [allWorkouts, setAllWorkouts] = useState<Workout[]>([]);
+  const [workoutsLoaded, setWorkoutsLoaded] = useState(false);
 
-  // ২. Mount হওয়ার পর LocalStorage থেকে স্টেট লোড করা (Cascading Render এড়াতে Asynchronous microtask ব্যবহার করা হয়েছে)
   useEffect(() => {
     let savedState = emptyState;
     try {
@@ -63,14 +64,12 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       // Storage unavailable or malformed JSON
     }
 
-    // Microtask এর মাধ্যমে স্টেট আপডেট করায় React-এর Cascading Render Warning আসবে না
     queueMicrotask(() => {
       setState(savedState);
       setHydrated(true);
     });
   }, []);
 
-  // ৩. API থেকে Workouts ডেটা ফেচ করা
   useEffect(() => {
     let isMounted = true;
     async function loadWorkouts() {
@@ -81,6 +80,10 @@ export function PlanProvider({ children }: { children: ReactNode }) {
         }
       } catch (error) {
         console.error("Failed to load workouts in PlanProvider:", error);
+      } finally {
+        // fetch শেষ হয়েছে কিনা (সফল হোক বা fail) — এটা না থাকলে
+        // page.tsx কখনো জানতে পারে না allWorkouts আসলেই লোড হয়েছে কিনা
+        if (isMounted) setWorkoutsLoaded(true);
       }
     }
     loadWorkouts();
@@ -90,7 +93,6 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // ৪. LocalStorage-এ স্টেট সিঙ্ক করা (শুধুমাত্র hydrated হওয়ার পর)
   useEffect(() => {
     if (!hydrated) return;
     try {
@@ -155,11 +157,15 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  // 🛠️ ফিক্স: id ম্যাচিং এখন String() দিয়ে normalize করা —
+  // entry.id সবসময় string, কিন্তু allWorkouts থেকে আসা w.id number হতে পারে।
   const planWorkouts = useMemo(
     () =>
       state.plan
         .map((entry) => {
-          const workout = allWorkouts.find((w) => w.id === entry.id);
+          const workout = allWorkouts.find(
+            (w) => String(w.id) === String(entry.id)
+          );
           return workout ? { ...workout, done: entry.done } : null;
         })
         .filter((w): w is Workout & { done: boolean } => w !== null),
@@ -169,13 +175,14 @@ export function PlanProvider({ children }: { children: ReactNode }) {
   const savedWorkouts = useMemo(
     () =>
       state.saved
-        .map((id) => allWorkouts.find((w) => w.id === id))
+        .map((id) => allWorkouts.find((w) => String(w.id) === String(id)))
         .filter((w): w is Workout => w !== undefined),
     [state.saved, allWorkouts]
   );
 
   const value: PlanContextValue = {
     hydrated,
+    workoutsLoaded,
     planWorkouts,
     savedWorkouts,
     planCount: state.plan.length,

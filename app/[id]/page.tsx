@@ -7,17 +7,19 @@ import { DetailActions } from "@/components/DetailActions";
 // 🌐 আপনার এক্সটার্নাল এপিআই-এর Base URL (.env.local ফাইল থেকে নিবে)
 // process.env.NEXT_PUBLIC_EXTERNAL_API_URL ||
 
-const API_BASE_URL = "https://api.abcz.workers.dev/api/fitlog";
 
 async function fetchWorkoutFromExternalApi(
   id: string,
-): Promise<Workout | null> {
+ ): Promise<Workout | null> {
   try {
-    const res = await fetch(`${API_BASE_URL}/${id}`, {
+    const res = await fetch(`https://api.api-store.workers.dev/api/fitlog/${id}`, {
       cache: "no-store",
     });
 
+    console.log("respoonse done");
+
     if (!res.ok) return null;
+
     return await res.json();
   } catch (error) {
     console.error("External API Fetch Error:", error);
@@ -61,7 +63,6 @@ export default async function WorkoutDetailPage({
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        {/* ইমেজ সেকশন */}
         <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-border bg-surface">
           <Image
             src={workout.image}
@@ -73,9 +74,7 @@ export default async function WorkoutDetailPage({
           />
         </div>
 
-        {/* ইনফরমেশন সেকশন */}
         <div>
-          {/* Muscle Groups ব্যাজ */}
           <div className="flex flex-wrap gap-2">
             {workout.muscleGroups.map((muscle) => (
               <span

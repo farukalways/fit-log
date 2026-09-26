@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🏋️ FitLog — Workout Library
 
-First, run the development server:
+**Train with intent. Log every set.**
+
+A dark, no-nonsense gym companion where you browse a library of lifts, lock
+them into today's plan, and watch the week's work add up.
+
+
+</div>
+
+---
+
+## 📖 Description
+
+FitLog is a workout library and daily planner. Pick a lift from the library,
+open its detail page for full instructions and specs, then either **add it
+to today's plan** or **save it for later**. A live dashboard on the **My
+Plan** page tracks how many exercises, minutes, and calories you've queued
+up for the day — all persisted locally, so your plan survives a page
+reload.
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+| --- | --- |
+| **Next.js (App Router)** | Routing, layouts, and static generation |
+| **TypeScript** | End-to-end type safety |
+| **Tailwind CSS v4** | Styling, theming, and responsive layout |
+| **React Context + localStorage** | Client-side plan/saved state that persists across reloads |
+
+---
+
+## ✨ Key Features
+
+1. ** Workout Library Grid** — 12 lifts as cards with category tags,
+   equipment, duration, calories, and rating, sortable by *Duration*,
+   *Calories*, or *Rating* via the Sort By dropdown.
+2. ** Detailed Workout Pages** — a full spec sheet (equipment, difficulty,
+   sets, reps, duration, calories, rating) plus numbered step-by-step
+   instructions, statically pre-rendered per workout so a hard reload never
+   errors.
+3. ** Today's Plan & Saved, with a 5-Lift Cap** — add a lift to today's plan
+   or save it for later from any detail page, with instant toast
+   confirmations and a live navbar badge count.
+4. ** My Plan Dashboard** — a live Exercises / Minutes / Calories summary,
+   tabs for *Today's Plan* vs. *Saved*, search by name or tag, mark-as-done
+   and remove actions, and a guided empty state.
+5. ** Fully Responsive & Resilient** — the grid, navbar, and plan collapse
+   cleanly from desktop to mobile, plan/saved state survives a reload via
+   `localStorage`, and a custom 404 page handles unknown routes.
+
+---
+
+## 🚀 Getting Started
 
 ```bash
+# install dependencies
+npm install
+
+# run the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view it.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# production build
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+<div align="center">
 
-To learn more about Next.js, take a look at the following resources:
+© 2026 FitLog — Workout Library. Train hard, log honest.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</div>

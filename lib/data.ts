@@ -23,4 +23,5 @@ export type Workout = {
   rating: number;
   description: string;
   instructions: string[];
+   done?: boolean;
 };

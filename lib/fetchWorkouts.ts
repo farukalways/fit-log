@@ -1,7 +1,7 @@
 import { type Workout } from "./data";
 
 // আপনার আসল API URL-টি এখানে বসান
-const API_URL = "https://api.abcz.workers.dev/api/fitlog";
+const API_URL = "https://api.api-store.workers.dev/api/fitlog";
 
 /**
  * Fetches workouts from the real backend API endpoint.
@@ -28,9 +28,17 @@ export type SortKey = "duration" | "calories" | "rating";
 
 export function sortWorkouts(list: Workout[], key: SortKey): Workout[] {
   const copy = [...list];
-  copy.sort((a, b) => {
-    if (key === "rating") return b.rating - a.rating;
-    return a[key] - b[key];
+  
+  return copy.sort((a, b) => {
+    if (key === "rating") {
+      return b.rating - a.rating;
+    }
+    if (key === "duration") {
+      return a.duration - b.duration;
+    }
+    if (key === "calories") {
+      return a.caloriesBurned - b.caloriesBurned;
+    }
+    return 0;
   });
-  return copy;
 }
