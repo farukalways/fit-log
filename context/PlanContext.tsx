@@ -9,7 +9,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { getWorkoutById, type Workout } from "@/lib/data";
+import type { Workout } from "@/lib/data";
+import { fetchWorkouts } from "@/lib/fetchWorkouts";
 
 export const PLAN_CAP = 5;
 
@@ -24,7 +25,6 @@ type PlanState = {
 };
 
 const STORAGE_KEY = "fitlog:plan-state";
-
 const emptyState: PlanState = { plan: [], saved: [] };
 
 type PlanContextValue = {
@@ -46,29 +46,57 @@ type PlanContextValue = {
 const PlanContext = createContext<PlanContextValue | null>(null);
 
 export function PlanProvider({ children }: { children: ReactNode }) {
+  // ১. Hydration এরর ও SSR mismatch এড়াতে ইনিশিয়াল স্টেট সবসময় খালি থাকবে
   const [state, setState] = useState<PlanState>(emptyState);
   const [hydrated, setHydrated] = useState(false);
+  const [allWorkouts, setAllWorkouts] = useState<Workout[]>([]);
 
+  // ২. Mount হওয়ার পর LocalStorage থেকে স্টেট লোড করা (Cascading Render এড়াতে Asynchronous microtask ব্যবহার করা হয়েছে)
   useEffect(() => {
-    // One-time hydration from localStorage after mount, so the server-rendered
-    // markup (always empty) matches the first client render and avoids a
-    // hydration mismatch.
+    let savedState = emptyState;
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (raw) setState(JSON.parse(raw) as PlanState);
+      if (raw) {
+        savedState = JSON.parse(raw) as PlanState;
+      }
     } catch {
-      // ignore malformed storage, start fresh
+      // Storage unavailable or malformed JSON
     }
-    setHydrated(true);
+
+    // Microtask এর মাধ্যমে স্টেট আপডেট করায় React-এর Cascading Render Warning আসবে না
+    queueMicrotask(() => {
+      setState(savedState);
+      setHydrated(true);
+    });
   }, []);
 
+  // ৩. API থেকে Workouts ডেটা ফেচ করা
+  useEffect(() => {
+    let isMounted = true;
+    async function loadWorkouts() {
+      try {
+        const data = await fetchWorkouts();
+        if (isMounted) {
+          setAllWorkouts(data);
+        }
+      } catch (error) {
+        console.error("Failed to load workouts in PlanProvider:", error);
+      }
+    }
+    loadWorkouts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // ৪. LocalStorage-এ স্টেট সিঙ্ক করা (শুধুমাত্র hydrated হওয়ার পর)
   useEffect(() => {
     if (!hydrated) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
-      // storage may be unavailable (private mode, quota) — fail silently
+      // fail silently
     }
   }, [state, hydrated]);
 
@@ -76,6 +104,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     (id: string) => state.plan.some((entry) => entry.id === id),
     [state.plan]
   );
+
   const isSaved = useCallback(
     (id: string) => state.saved.includes(id),
     [state.saved]
@@ -130,19 +159,19 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     () =>
       state.plan
         .map((entry) => {
-          const workout = getWorkoutById(entry.id);
+          const workout = allWorkouts.find((w) => w.id === entry.id);
           return workout ? { ...workout, done: entry.done } : null;
         })
         .filter((w): w is Workout & { done: boolean } => w !== null),
-    [state.plan]
+    [state.plan, allWorkouts]
   );
 
   const savedWorkouts = useMemo(
     () =>
       state.saved
-        .map((id) => getWorkoutById(id))
+        .map((id) => allWorkouts.find((w) => w.id === id))
         .filter((w): w is Workout => w !== undefined),
-    [state.saved]
+    [state.saved, allWorkouts]
   );
 
   const value: PlanContextValue = {

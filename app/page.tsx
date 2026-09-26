@@ -1,12 +1,12 @@
 
-const RootPage = () => {
-  return (
-    <div>
-      <h2>root page</h2>
-      <h2>root page</h2>
-      <h2>root page</h2>
-    </div>
-  );
-};
+import { Hero } from "@/components/Hero";
+import { Library } from "@/components/Library";
 
-export default RootPage;
+export default function HomePage() {
+  return (
+    <>
+      <Hero />
+      <Library />
+    </>
+  );
+}
