@@ -12,7 +12,9 @@ export function Library() {
 
   useEffect(() => {
     let active = true;
+    
     fetchWorkouts().then((data) => {
+
       if (active) setWorkouts(data);
     });
     return () => {
@@ -21,6 +23,8 @@ export function Library() {
   }, []);
 
   const list = workouts ? sortWorkouts(workouts, sortKey) : null;
+
+  console.log(list);
 
   return (
     <section id="library" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">

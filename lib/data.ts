@@ -7,21 +7,20 @@ export type Category =
   | "SHOULDERS"
   | "ARMS"
   | "CORE";
-
 export type Difficulty = "Beginner" | "Intermediate" | "Advanced";
 
 export type Workout = {
-  id: string;
+  id: number;
   name: string;
-  categories: Category[];
-  equipment: string[];
-  duration: number; // minutes
-  calories: number; // kcal
-  rating: number;
+  image: string;
+  muscleGroups: string[];
+  equipment: string;
   difficulty: Difficulty;
+  duration: number; // minutes
+  caloriesBurned: number; // kcal
   sets: number;
   reps: string;
+  rating: number;
   description: string;
   instructions: string[];
 };
-

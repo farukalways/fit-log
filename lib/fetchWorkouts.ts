@@ -22,6 +22,8 @@ export async function fetchWorkouts(): Promise<Workout[]> {
   }
 }
 
+
+
 export type SortKey = "duration" | "calories" | "rating";
 
 export function sortWorkouts(list: Workout[], key: SortKey): Workout[] {

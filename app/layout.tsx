@@ -1,21 +1,11 @@
 import type { Metadata } from "next";
-import { Oswald, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navber";
 import { Footer } from "@/components/Footer";
 
 
-const oswald = Oswald({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-oswald",
-});
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 export const metadata: Metadata = {
   title: "FitLog — Workout Library",
@@ -29,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${oswald.variable} ${inter.variable}`}>
-      <body className="flex min-h-screen flex-col bg-bg font-body text-ink antialiased">
+    <html lang="en">
+      <body className="flex min-h-screen flex-col bg-bg font-body text-ink antialiased" suppressHydrationWarning={true}>
         <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>
