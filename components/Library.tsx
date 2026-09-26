@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import type { Workout } from "@/lib/data";
 import { fetchWorkouts, sortWorkouts, type SortKey } from "@/lib/fetchWorkouts";
-import { WorkoutCard } from "./WorkoutCard";
-import { SortDropdown } from "./SortDropdown";
+import { WorkoutCard } from "@/components//WorkoutCard";
+import { SortDropdown } from "@/components/SortDropdown";
 
 export function Library() {
   const [workouts, setWorkouts] = useState<Workout[] | null>(null);
