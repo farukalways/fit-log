@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Oswald, Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/Providers";
 import { Navbar } from "@/components/Navber";
 import { Footer } from "@/components/Footer";
+
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -29,9 +31,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${oswald.variable} ${inter.variable}`}>
       <body className="flex min-h-screen flex-col bg-bg font-body text-ink antialiased">
+        <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+        </Providers>
       </body>
     </html>
   );
