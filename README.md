@@ -58,6 +58,9 @@ reload.
 ## 🚀 Getting Started
 
 ```bash
+# clone repositorie
+git clone https://github.com/farukalways/fit-log.git
+
 # install dependencies
 npm install
 
@@ -65,7 +68,7 @@ npm install
 npm run dev
 ```
 
-Open [https://fit-log-five-beige.vercel.app/](viewIt) to view it.
+Open [fit log](https://fit-log-five-beige.vercel.app/) to view it.
 
 
 ---
